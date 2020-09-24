@@ -1,3 +1,109 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply bg-gray-100;
+  color: #2c3e50;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-semibold leading-tight
+}
+
+h1 {
+  @apply text-3xl;
+}
+
+h2 {
+  @apply text-2xl;
+}
+
+h3 {
+  @apply text-xl;
+}
+
+h4 {
+  @apply text-xl;
+}
+
+h5 {
+  @apply text-lg;
+}
+
+h6 {
+  @apply text-base;
+}
+
+
+@media (min-width: 768px) {
+  h1 {
+    @apply text-5xl;
+  }
+
+  h2 {
+    @apply text-3xl;
+  }
+
+  h3 {
+    @apply text-2xl;
+  }
+
+  h4 {
+    @apply text-xl;
+  }
+
+  h5 {
+    @apply text-lg;
+  }
+
+  h6 {
+    @apply text-base;
+  }
+}
+
+.flex-center {
+  @apply flex;
+  @apply items-center;
+  @apply justify-center;
+}
+
+.header {
+  @apply border-b-4;
+  @apply inline-block;
+  @apply font-semibold;
+  @apply border-blue-600;
+}
+
+a {
+  @apply border-b-2;
+  @apply font-medium;
+  @apply border-blue-600;
+}
+
+input, select {
+  @apply p-2;
+  @apply border-2;
+  @apply rounded;
+  @apply border-blue-600;
+}
+
+button {
+  @apply p-2;
+  @apply border-2;
+  @apply rounded;
+  @apply border-blue-600;
+  @apply bg-blue-600;
+  @apply uppercase;
+  @apply text-white;
+}
+
+button:hover {
+  @apply text-blue-600;
+  @apply bg-white;
+}
