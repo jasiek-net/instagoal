@@ -1,5 +1,5 @@
 module.exports = {
-  purge: ['./components/*.vue', './views/*.vue'],
+  purge: ['./src/**/*.vue'],
   theme: {
     container: {
       center: true,
