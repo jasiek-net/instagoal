@@ -28,41 +28,41 @@
 </template>
 
 <script>
+import { API, KEY } from '@/utils';
+
 export default {
-  name: 'V1',
-  mounted() {
-    const paths = this.id.split('/')
-    if (paths.length < 2 || isNaN(paths[1])) {
-      return alert('Nieprawidłowy adres URL!');
-    }
-    fetch(`https://spreadsheets.google.com/feeds/cells/${ this.id }/public/full?alt=json`)
-      .then(res => res.json())
-      .then(res => {
-        const data = []
-        res.feed.entry.map(e => {
-          const { row, $t } = e.gs$cell;
-          if (!data[ row ]) {
-            data[ row ] = {
-              label: $t,
-              value: [],
-            };
-          } else {
-            data[ row ].value.push($t)
-          }
-        })
-        this.data = data.filter(e => e);
-      })
-      .catch(err => console.error(err))
-  },
   data() {
     return {
-      data: []
+      data: [],
     }
   },
-  computed: {
-    id() {
-      return atob(this.$route.params.id);
-    },
+  mounted() {
+    try {
+      const sheeID = atob(this.$route.params.id);
+      if (!sheeID.includes('/values/')) {
+        throw 'Wrong URL';
+      }
+      fetch(`${ API }${ sheeID }${ atob(KEY) }`)
+        .then(res => res.json())
+        .then(res => {
+          console.log(res)
+          const data = []
+          res.values
+            .filter(e => e.length)
+            .map(e => {
+              data.push({
+                label: e.shift(),
+                value: e,
+              })
+            });
+          this.data = data;
+        })
+        .catch(err => console.error(err))
+
+    } catch {
+      alert('Nieprawidłowy adres URL!');
+      return this.$router.push('/');
+    }
   },
 }
 </script>
