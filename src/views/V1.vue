@@ -45,7 +45,6 @@ export default {
       fetch(`${ API }${ sheeID }${ atob(KEY) }`)
         .then(res => res.json())
         .then(res => {
-          console.log(res)
           const data = []
           res.values
             .filter(e => e.length)
