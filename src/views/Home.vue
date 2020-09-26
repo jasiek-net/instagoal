@@ -50,6 +50,8 @@
 </template>
 
 <script>
+/*global ga*/
+/*eslint no-undef: "error"*/
 import { API, KEY, REG } from '@/utils';
 
 export default {
@@ -63,6 +65,9 @@ export default {
   },
   methods: {
     click() {
+      if (typeof ga == 'function') {
+        ga('send', 'event', 'home', 'click', this.sheetID);
+      }
       return this.$router.push('/v1/' + btoa(`${ this.sheetID }/values/${ this.tab }`))
     },
     change() {
@@ -86,6 +91,10 @@ export default {
             } else {
               return alert(res.error.message)
             }
+          }
+          if (typeof ga == 'function') {
+            console.log(ga)
+            ga('send', 'event', 'home', 'change', this.sheetID);
           }
           if (res.sheets && res.sheets.length > 0) {
             this.options = res.sheets.map(s => s.properties.title);
