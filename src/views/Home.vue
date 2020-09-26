@@ -8,104 +8,90 @@
     <br />
     <br />
     <p>
-      Projekt służy do generowania prostych stron www w oparciu o dane z Google Sheets. Póki co gotowy jest widok oparty na kursie <a class="link" href="https://trzypoziomy.pl/" target="_blank">trzypoziomy.pl</a>, roadmapa dostępna jest na <a href="https://github.com/janhorubala/" target="_blank">githubie</a>.
+      Instagoal służy do generowania landing page'y w oparciu o dane z Google Sheets. Póki co gotowy jest widok oparty na kursie <a class="link" href="https://trzypoziomy.pl/" target="_blank">trzypoziomy.pl</a>, roadmapa dostępna jest na <a href="https://github.com/janhorubala/instagoal" target="_blank">githubie</a>.
       <br />
       <br />
       Zobacz jak wygląda
-      <router-link to="/v1/MWp5WThzMHBLSjVLbDJUNmNCSGpjVi1HX3FhNG5QV3Z3LW1yUFE5SGYwMzQvMg">
+      <router-link to="/v1/MWp5WThzMHBLSjVLbDJUNmNCSGpjVi1HX3FhNG5QV3Z3LW1yUFE5SGYwMzQvdmFsdWVzL1RSWlkgUE9aSU9NWQ">
         przykładowa strona
       </router-link> lub wygeneruj link z własnymi celami kierując się poniższymi krokami (arkusz powinien być podobny <a target="_blank" href="https://docs.google.com/spreadsheets/d/1jyY8s0pKJ5Kl2T6cBHjcV-G_qa4nPWvw-mrPQ9Hf034/edit#gid=1941808675">do tego</a>).
     </p>
 
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-10 my-24">
-
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-10 my-20">
+      <img src="@/assets/step1.jpg" />
       <div>
         <h4 class="header">Krok 1</h4>
-        <br />
-        <br />
-        Otwórz swój arkusz i wybierz
-        <br />
-        <span class="font-medium">File > Publish to the web</span>.
-      </div>
-      <img src="@/assets/step1.jpg" />
-
-      <div>
-        <h4 class="header">Krok 2</h4>
-        <br />
-        <br />
-        Kliknij
-        <span class="font-medium">Publish</span>, a potem
-        <span class="font-medium">OK</span>.
-        <br />
-        Twój arkusz jest już dostępny!
-      </div>
-      <img src="@/assets/step2.jpg" />
-
-      <div>
-        <h4 class="header">Krok 3</h4>
-        <br />
-        <br />
-        Wklej poniżej adres URL arkusza.
-        <br />
-        Właściwy URL to adres z paska przeglądarki!
-      </div>
-      <img src="@/assets/step3.jpg" />
-
-      <div class="sm:col-span-2">
+        <p class="mt-4">
+          Wklej adres URL Twojego arkusza (upewnij się, że akrusz jest dostępny publicznie).
+        </p>
         <input
-          class="w-full"
+          @change="change"
+          class="w-full mt-4"
           v-model="url"
           placeholder="https://docs.google.com/spreadsheets/d/1jyY8s0pKJ5Kl2T6cBHjcV-G_qa4nPWvw-mrPQ9Hf034/edit" />
-        <br />
       </div>
 
+      <img src="@/assets/step2.jpg" />
       <div>
-        <h4 class="header">Krok 4</h4>
-        <br />
-        <br />
-        Wybierz który numer z koleii ma arkusz z celami i kliknij STWÓRZ LANDING!
-        <br />
+        <h4 class="header">Krok 2</h4>
+        <p class="mt-4">
+          Wybierz zakładkę w której są 3 poziomy.
+        </p>
+        <select :disabled="options.length === 0" v-model="tab" class="w-full mt-4">
+          <option disabled value="">Wybierz zakładkę</option>
+          <option v-for="o in options" :key="o">{{ o }}</option>
+        </select>
       </div>
 
-      <div>
-        <img src="@/assets/step4.jpg" />
-        <div class="flex flex-col mt-8">
-          <select class="w-full mb-4" v-model="id">
-            <option disabled value="Numer arkusza">Numer arkusza</option>
-            <option v-for="o in Array(20).fill().map((n, i) => i + 1)" :key="o">{{ o }}</option>
-          </select>
-          <button class="w-full" @click="create">stwórz landing!</button>
-        </div>
-      </div>
-
+      <div></div>
+      <button :disabled="url == '' || tab == ''" class="w-full" @click="click">stwórz landing!</button>
     </div>
   </div>
 </template>
 
 <script>
+import { API, KEY, REG } from '@/utils';
+
 export default {
   data() {
     return {
-      id: 'Numer arkusza',
-      url: null,
+      tab: '',
+      url: '',
+      sheetID: '',
+      options: [],
     }
   },
   methods: {
-    create() {
-      const paths = new RegExp("/spreadsheets/d/([a-zA-Z0-9-_]+)").exec(this.url);
-      console.log(paths)
+    click() {
+      return this.$router.push('/v1/' + btoa(`${ this.sheetID }/values/${ this.tab }`))
+    },
+    change() {
+      if (this.url === '') {
+        return alert('Adres URL nie może być pusty!')
+      }
+      const paths = new RegExp(REG).exec(this.url);
       if (paths === null || paths.length < 2) {
         return alert('Nieprawidłowy adres URL!');
       }
-      const sheetID = paths[1];
-      if (!sheetID) {
+      this.sheetID = paths[1];
+      if (!this.sheetID) {
         return alert('Nieprawidłowy adres URL!');
       }
-      const tabID = this.id;
-      if (isNaN(tabID)) {
-        return alert('Nieprawidłowy numer arkusza!');
-      }
-      this.$router.push('/v1/' + btoa(`${ sheetID }/${ tabID }`))
+      fetch(`${ API }${ this.sheetID }${ atob(KEY) }`)
+        .then(res => res.json())
+        .then(res => {
+          if (res.error) {
+            if (res.error.code == 403) {
+              return alert("Arkusz nie jest udostępniony!\nKliknij File > Share > Change to anyone with the link > DONE")
+            } else {
+              return alert(res.error.message)
+            }
+          }
+          if (res.sheets && res.sheets.length > 0) {
+            this.options = res.sheets.map(s => s.properties.title);
+          }
+        })
+        .catch(err => alert(err.error.message));
     }
   }
 }
