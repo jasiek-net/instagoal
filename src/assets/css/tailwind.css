@@ -107,3 +107,8 @@ button:hover {
   @apply text-blue-600;
   @apply bg-white;
 }
+
+*:disabled {
+  @apply opacity-75;
+  cursor: not-allowed;
+}
