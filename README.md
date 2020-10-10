@@ -4,7 +4,7 @@
 
 - [x] v1 compatible with module 3
 - [ ] v2 compatible with module 4 (deadlines)
-- [ ] v3 full 3 levels version (inspirations, done, etc.)
+- [x] v3 full 3 levels version (inspirations, done, etc.)
 - [ ] simple backend for aliases / saving sheet ID's
 - [ ] landing page with basic info & showcases
 - [ ] map section for visited places

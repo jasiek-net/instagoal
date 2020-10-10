@@ -2,7 +2,7 @@
   <div class="container my-16 lg:px-40 xl:px-64">
     <div class="text-center">
       <h1 class="header">
-        instagoal
+        Instagoal
       </h1>
     </div>
     <br />
@@ -12,7 +12,7 @@
       <br />
       <br />
       Zobacz jak wygląda
-      <router-link to="/v1/MWp5WThzMHBLSjVLbDJUNmNCSGpjVi1HX3FhNG5QV3Z3LW1yUFE5SGYwMzQvdmFsdWVzL1RSWlkgUE9aSU9NWQ">
+      <router-link to="/v1/MUs1LUFnaUZvSERYcXE3cXNUX3NCRmpkTXAyelBoSnpaV0F6R0FVRWNKTjgvdmFsdWVzLzNQT1pJT01ZIFYx">
         przykładowa strona
       </router-link> lub wygeneruj link z własnymi celami kierując się poniższymi krokami (arkusz powinien być podobny <a target="_blank" href="https://docs.google.com/spreadsheets/d/1jyY8s0pKJ5Kl2T6cBHjcV-G_qa4nPWvw-mrPQ9Hf034/edit#gid=1941808675">do tego</a>).
     </p>
@@ -50,8 +50,6 @@
 </template>
 
 <script>
-/*global ga*/
-/*eslint no-undef: "error"*/
 import { API, KEY, REG } from '@/utils';
 
 export default {
@@ -65,9 +63,6 @@ export default {
   },
   methods: {
     click() {
-      if (typeof ga == 'function') {
-        ga('send', 'event', 'home', 'click', this.sheetID);
-      }
       return this.$router.push('/v1/' + btoa(`${ this.sheetID }/values/${ this.tab }`))
     },
     change() {
@@ -91,10 +86,6 @@ export default {
             } else {
               return alert(res.error.message)
             }
-          }
-          if (typeof ga == 'function') {
-            console.log(ga)
-            ga('send', 'event', 'home', 'change', this.sheetID);
           }
           if (res.sheets && res.sheets.length > 0) {
             this.options = res.sheets.map(s => s.properties.title);
