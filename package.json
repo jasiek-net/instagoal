@@ -27,6 +27,9 @@
     "env": {
       "node": true
     },
+    "globals": {
+      "gapi": true
+    },
     "extends": [
       "plugin:vue/essential",
       "eslint:recommended"
