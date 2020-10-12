@@ -1,5 +1,10 @@
 <template>
-  <div>
+  <router-view />
+</template>
+
+<!--
+<template>
+  <div class="mt-24">
     <AppBar />
     <router-view />
   </div>
@@ -14,3 +19,4 @@ export default {
   }
 }
 </script>
+-->
