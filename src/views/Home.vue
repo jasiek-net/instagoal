@@ -8,91 +8,52 @@
     <br />
     <br />
     <p>
-      Instagoal służy do generowania landing page'y w oparciu o dane z Google Sheets. Póki co gotowy jest widok oparty na kursie <a class="link" href="https://trzypoziomy.pl/" target="_blank">trzypoziomy.pl</a>, roadmapa dostępna jest na <a href="https://github.com/janhorubala/instagoal" target="_blank">githubie</a>.
+      Projekt służy jako rozszerzenie kursu <a class="link" :href="outURL.trzypoziomy" target="_blank">trzypoziomy.pl</a>, po wklejeniu linka do Google Sheets możliwe jest wygenerowanie strony z trzema poziomami w wersji
+      <router-link :to="appURL.v1">
+        basic
+      </router-link>
+      lub
+      <router-link :to="appURL.v2">
+        advanced</router-link>.
+<!--
       <br />
       <br />
-      Zobacz jak wygląda
-      <router-link to="/v1/MUs1LUFnaUZvSERYcXE3cXNUX3NCRmpkTXAyelBoSnpaV0F6R0FVRWNKTjgvdmFsdWVzLzNQT1pJT01ZIFYx">
-        przykładowa strona
-      </router-link> lub wygeneruj link z własnymi celami kierując się poniższymi krokami (arkusz powinien być podobny <a target="_blank" href="https://docs.google.com/spreadsheets/d/1jyY8s0pKJ5Kl2T6cBHjcV-G_qa4nPWvw-mrPQ9Hf034/edit#gid=1941808675">do tego</a>).
+      Po zalogowaniu się przez konto Google możliwe jest tworzenie miesięcznych podsumowań i przechowywanie ich w swoim Google Sheets (najlepiej stworzyć pod to dedykowaną zakładkę).
+ -->
+      <br />
+      <br />
+      Wybierz rodzaj widoku i kieruj się poniższymi krokami:
+      <br />
+      <br />
     </p>
-
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-10 my-20">
-      <img src="@/assets/step1.jpg" />
-      <div>
-        <h4 class="header">Krok 1</h4>
-        <p class="mt-4">
-          Wklej adres URL Twojego arkusza (upewnij się, że akrusz jest dostępny publicznie).
-        </p>
-        <input
-          @change="change"
-          class="w-full mt-4"
-          v-model="url"
-          placeholder="https://docs.google.com/spreadsheets/d/1jyY8s0pKJ5Kl2T6cBHjcV-G_qa4nPWvw-mrPQ9Hf034/edit" />
-      </div>
-
-      <img src="@/assets/step2.jpg" />
-      <div>
-        <h4 class="header">Krok 2</h4>
-        <p class="mt-4">
-          Wybierz zakładkę w której są 3 poziomy.
-        </p>
-        <select :disabled="options.length === 0" v-model="tab" class="w-full mt-4">
-          <option disabled value="">Wybierz zakładkę</option>
-          <option v-for="o in options" :key="o">{{ o }}</option>
-        </select>
-      </div>
-
-      <div></div>
-      <button :disabled="url == '' || tab == ''" class="w-full" @click="click">stwórz landing!</button>
+    <div class="grid grid-cols-1 gap-10 sm:grid-cols-3">
+      <button
+        v-for="b in buttons"
+        :key="b"
+        @click="tab = b"
+        :class="tab === b && 'bg-white text-blue-500'">
+        {{ b }}
+      </button>
     </div>
+    <Steps :tab="tab" />
   </div>
 </template>
 
 <script>
-import { API, KEY, REG } from '@/utils';
+import { appURL, outURL } from '@/urls';
+import Steps from '@/components/Steps';
 
 export default {
+  components: {
+    Steps,
+  },
   data() {
     return {
-      tab: '',
-      url: '',
-      sheetID: '',
-      options: [],
+      appURL,
+      outURL,
+      tab: 'basic',
+      buttons: [ 'basic', 'advanced', 'summary' ]
     }
   },
-  methods: {
-    click() {
-      return this.$router.push('/v1/' + btoa(`${ this.sheetID }/values/${ this.tab }`))
-    },
-    change() {
-      if (this.url === '') {
-        return alert('Adres URL nie może być pusty!')
-      }
-      const paths = new RegExp(REG).exec(this.url);
-      if (paths === null || paths.length < 2) {
-        return alert('Nieprawidłowy adres URL!');
-      }
-      this.sheetID = paths[1];
-      if (!this.sheetID) {
-        return alert('Nieprawidłowy adres URL!');
-      }
-      fetch(`${ API }${ this.sheetID }${ atob(KEY) }`)
-        .then(res => res.json())
-        .then(res => {
-          if (res.error) {
-            if (res.error.code == 403) {
-              return alert("Arkusz nie jest udostępniony!\nKliknij File > Share > Change to anyone with the link > DONE")
-            } else {
-              return alert(res.error.message)
-            }
-          }
-          if (res.sheets && res.sheets.length > 0) {
-            this.options = res.sheets.map(s => s.properties.title);
-          }
-        })
-        .catch(err => alert(err.error.message));
-    }
-  }
 }
 </script>

@@ -80,6 +80,13 @@ h6 {
   @apply border-blue-600;
 }
 
+.header-small {
+  @apply border-b-2;
+  @apply inline-block;
+  @apply font-semibold;
+  @apply border-blue-600;
+}
+
 a {
   @apply border-b-2;
   @apply font-medium;
@@ -111,4 +118,14 @@ button:hover {
 *:disabled {
   @apply opacity-75;
   cursor: not-allowed;
+}
+
+textarea {
+  border: none;
+  overflow: auto;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  margin-bottom: -7px;
 }

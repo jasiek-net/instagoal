@@ -3,10 +3,10 @@
 ### Roadmap
 
 - [x] v1 compatible with module 3
-- [ ] v2 compatible with module 4 (deadlines)
-- [x] v3 full 3 levels version (inspirations, done, etc.)
+- [x] landing page with basic info & showcases
+- [x] v2 full 3 levels version (inspirations, done, etc.)
+- [ ] summary section & google oauth integration
 - [ ] simple backend for aliases / saving sheet ID's
-- [ ] landing page with basic info & showcases
 - [ ] map section for visited places
 - [ ] books section for book list / any other list
 - [ ] cache proxy for google sheets

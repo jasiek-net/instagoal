@@ -1,7 +1,8 @@
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
+import Post from '@/views/Post.vue'
 import V1 from '@/views/V1.vue'
-import V3 from '@/views/V3.vue'
+import V2 from '@/views/V2.vue'
 
 const router = new VueRouter({
   routes: [
@@ -10,12 +11,16 @@ const router = new VueRouter({
       component: Home
     },
     {
+      path: '/post/:id',
+      component: Post
+    },
+    {
       path: '/v1/:id',
       component: V1
     },
     {
-      path: '/v3/:id',
-      component: V3
+      path: '/v2/:id',
+      component: V2
     },
   ]
 })

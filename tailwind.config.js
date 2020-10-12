@@ -1,5 +1,17 @@
 module.exports = {
-  purge: ['./src/**/*.vue'],
+  purge: {
+    content: ['./src/**/*.vue'],
+    options: {
+      whitelist: [
+        'bg-blue-600',
+        'bg-blue-700',
+        'bg-blue-800',
+        'border-blue-500',
+        'border-blue-600',
+        'border-blue-700',
+      ],
+    },
+  },
   theme: {
     container: {
       center: true,

@@ -26,19 +26,17 @@
             <div class="mb-4">
               {{ col.goal }}
             </div>
-            <div class="md:text-xl">
-              <div v-if="col.done === 'TRUE'">
-                 🚀 {{ col.date }}
-              </div>
-              <div v-else>
-                 🎯 {{ col.date }}
-              </div>
+            <div v-if="col.done === 'TRUE'">
+              🎖 {{ col.date }}
+            </div>
+            <div v-else>
+              ⏳ {{ col.date }}
             </div>
           </div>
         </div>
-        <div v-if="row.inspiration" class="bg-white md:col-span-3 border flex">
+        <div v-if="row.inspiration" class="bg-white md:col-span-3 border text-lg flex">
           <div class="p-4 border-r">
-            💎 Inspiracje
+            🚀 Inspiracje
           </div>
           <div class="p-4">
             {{ row.inspiration }}

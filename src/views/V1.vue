@@ -46,6 +46,8 @@ export default {
         .then(res => res.json())
         .then(res => {
           const data = []
+          // remove first row with header
+          res.values.shift();
           res.values
             .filter(e => e.length)
             .map(e => {
