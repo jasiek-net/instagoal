@@ -30,7 +30,7 @@
     <button :disabled="url == '' || sheetTab == ''" class="w-full" @click="click">stwórz landing!</button>
   </div>
   <div v-else class="flex justify-center p-16">
-    Work in progres ;)
+    Work in progress ;)
   </div>
 </template>
 
