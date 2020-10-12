@@ -99,7 +99,7 @@ export default {
           gapi.auth2.init({client_id: "524244998138-jv54a5o5nrl1ka1l1sp19f4t97t8gj8l.apps.googleusercontent.com"});
         });
 
-        // authenticate().then(loadClient)
+        authenticate().then(loadClient)
         execute()
     }
   },
