@@ -12,7 +12,7 @@
         <div
           v-for="(col, j) in row.value"
           class="flex align-center border"
-          :class="isDone(col.done, j)"
+          :class="[isDone(col.done, j), j > 0 ? 'border-t-0 md:border-t-1 md:border-l-0' : '' ]"
           :key="j">
           <div
             :class="col.done === 'TRUE' ? `text-white border-blue-${ j + 5 }00` : 'text-blue-600'"
@@ -34,12 +34,14 @@
             </div>
           </div>
         </div>
-        <div v-if="row.inspiration" class="bg-white md:col-span-3 border text-lg flex">
-          <div class="p-4 border-r">
-            🚀 Inspiracje
-          </div>
-          <div class="p-4">
-            {{ row.inspiration }}
+        <div v-if="row.inspiration" class="md:col-span-3 bg-white border border-t-0">
+          <div class="flex flex-col md:flex-row text-sm md:text-lg text-center md:text-right">
+            <div class="p-4 border-b md:border-b-0 md:border-r">
+              🚀 Inspiracje
+            </div>
+            <div class="p-4">
+              {{ row.inspiration }}
+            </div>
           </div>
         </div>
       </div>
@@ -58,11 +60,7 @@ export default {
   },
   methods: {
     isDone(done, level) {
-      const border = level > 0 ? ' border-l-0' : '';
-      if (done === 'TRUE') {
-        return `text-white bg-blue-${ level + 6 }00 border-blue-${ level + 5 }00` + border;
-      }
-      return 'bg-white' + border;
+      return done !== 'TRUE' ? 'bg-white' : `text-white bg-blue-${ level + 6 }00 border-blue-${ level + 5 }00`;
     },
   },
   mounted() {
